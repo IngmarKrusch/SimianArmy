@@ -31,8 +31,6 @@ import com.netflix.simianarmy.MonkeyRunner;
 import com.netflix.simianarmy.aws.janitor.VolumeTaggingMonkey;
 import com.netflix.simianarmy.basic.chaos.BasicChaosMonkey;
 import com.netflix.simianarmy.basic.janitor.BasicJanitorMonkey;
-import com.netflix.simianarmy.basic.janitor.BasicJanitorMonkeyContext;
-import com.netflix.simianarmy.basic.janitor.BasicVolumeTaggingMonkeyContext;
 
 /**
  * Will periodically run the configured monkeys.
@@ -50,10 +48,15 @@ public class BasicMonkeyServer extends HttpServlet {
     public void addMonkeysToRun() {
         LOGGER.info("Adding Chaos Monkey.");
         RUNNER.replaceMonkey(getChaosMonkeyClass(), this.chaosContextClass);
-        LOGGER.info("Adding Volume Tagging Monkey.");
-        RUNNER.replaceMonkey(VolumeTaggingMonkey.class, BasicVolumeTaggingMonkeyContext.class);
-        LOGGER.info("Adding Janitor Monkey.");
-        RUNNER.replaceMonkey(BasicJanitorMonkey.class, BasicJanitorMonkeyContext.class);
+
+//        String prop = "simianarmy.volumeTagging.enabled";
+//        if (config.getBoolOrElse(prop, false)) {
+//
+//        }
+//        LOGGER.info("Adding Volume Tagging Monkey.");
+//        RUNNER.replaceMonkey(VolumeTaggingMonkey.class, BasicVolumeTaggingMonkeyContext.class);
+//        LOGGER.info("Adding Janitor Monkey.");
+//        RUNNER.replaceMonkey(BasicJanitorMonkey.class, BasicJanitorMonkeyContext.class);
     }
 
     /**

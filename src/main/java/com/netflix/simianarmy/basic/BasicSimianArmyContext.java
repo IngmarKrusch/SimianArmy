@@ -34,7 +34,7 @@ import com.netflix.simianarmy.MonkeyConfiguration;
 import com.netflix.simianarmy.MonkeyRecorder;
 import com.netflix.simianarmy.MonkeyRecorder.Event;
 import com.netflix.simianarmy.MonkeyScheduler;
-import com.netflix.simianarmy.aws.SimpleDBRecorder;
+import com.netflix.simianarmy.aws.InMemoryRecorder;
 import com.netflix.simianarmy.client.aws.AWSClient;
 
 /**
@@ -135,7 +135,8 @@ public class BasicSimianArmyContext implements Monkey.Context {
     private void createRecorder() {
         String domain = config.getStrOrElse("simianarmy.recorder.sdb.domain", "SIMIAN_ARMY");
         if (client != null) {
-            setRecorder(new SimpleDBRecorder(client, domain));
+            setRecorder(new InMemoryRecorder(client, domain));
+//            setRecorder(new SimpleDBRecorder(client, domain));
         }
     }
 

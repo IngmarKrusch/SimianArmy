@@ -17,17 +17,10 @@
  */
 package com.netflix.simianarmy.aws;
 
-import java.util.Collections;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-
-import org.apache.commons.lang.Validate;
 
 import com.amazonaws.services.simpledb.AmazonSimpleDB;
 import com.amazonaws.services.simpledb.model.Attribute;
@@ -36,50 +29,15 @@ import com.amazonaws.services.simpledb.model.PutAttributesRequest;
 import com.amazonaws.services.simpledb.model.ReplaceableAttribute;
 import com.amazonaws.services.simpledb.model.SelectRequest;
 import com.amazonaws.services.simpledb.model.SelectResult;
-import com.netflix.simianarmy.MonkeyRecorder;
 import com.netflix.simianarmy.basic.BasicRecorderEvent;
 import com.netflix.simianarmy.client.aws.AWSClient;
 
 /**
  * The Class SimpleDBRecorder. Records events to and fetched events from a Amazon SimpleDB table (default SIMIAN_ARMY)
  */
-@SuppressWarnings("serial")
-public class SimpleDBRecorder implements MonkeyRecorder {
+public class SimpleDBRecorder extends AbstractRecorder {
 
     private final AmazonSimpleDB simpleDBClient;
-
-    private final String region;
-
-    /** The domain. */
-    private final String domain;
-
-    /**
-     * The Enum Keys.
-     */
-    private enum Keys {
-
-        /** The event id. */
-        id,
-        /** The event time. */
-        eventTime,
-        /** The region. */
-        region,
-        /** The record type. */
-        recordType,
-        /** The monkey type. */
-        monkeyType,
-        /** The event type. */
-        eventType;
-
-        /** The Constant KEYSET. */
-        public static final Set<String> KEYSET = Collections.unmodifiableSet(new HashSet<String>() {
-            {
-                for (Keys k : Keys.values()) {
-                    add(k.toString());
-                }
-            }
-        });
-    };
 
     /**
      * Instantiates a new simple db recorder.
@@ -90,11 +48,8 @@ public class SimpleDBRecorder implements MonkeyRecorder {
      *            the domain
      */
     public SimpleDBRecorder(AWSClient awsClient, String domain) {
-        Validate.notNull(awsClient);
-        Validate.notNull(domain);
+        super(awsClient, domain);
         this.simpleDBClient = awsClient.sdbClient();
-        this.region = awsClient.region();
-        this.domain = domain;
     }
 
     /**
@@ -106,50 +61,6 @@ public class SimpleDBRecorder implements MonkeyRecorder {
         return simpleDBClient;
     }
 
-    /**
-     * Enum to value. Converts an enum to "name|type" string
-     *
-     * @param e
-     *            the e
-     * @return the string
-     */
-    private static String enumToValue(Enum e) {
-        return String.format("%s|%s", e.name(), e.getClass().getName());
-    }
-
-    /**
-     * Value to enum. Converts a "name|type" string back to an enum.
-     *
-     * @param value
-     *            the value
-     * @return the enum
-     */
-    @SuppressWarnings("unchecked")
-    private static Enum valueToEnum(String value) {
-        // parts = [enum value, enum class type]
-        String[] parts = value.split("\\|", 2);
-        if (parts.length < 2) {
-            throw new RuntimeException("value " + value + " does not appear to be an internal enum format");
-        }
-
-        Class enumClass;
-        try {
-            enumClass = Class.forName(parts[1]);
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException("class for enum value " + value + " not found");
-        }
-        if (enumClass.isEnum()) {
-            final Class<? extends Enum> enumSubClass = enumClass.asSubclass(Enum.class);
-            return Enum.valueOf(enumSubClass, parts[0]);
-        }
-        throw new RuntimeException("value " + value + " does not appear to be an enum type");
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public Event newEvent(Enum monkeyType, Enum eventType, String reg, String id) {
-        return new BasicRecorderEvent(monkeyType, eventType, reg, id);
-    }
 
     /** {@inheritDoc} */
     @Override
@@ -169,8 +80,8 @@ public class SimpleDBRecorder implements MonkeyRecorder {
             attrs.add(new ReplaceableAttribute(pair.getKey(), pair.getValue(), true));
         }
         // Let pk contain the timestamp so that the same resource can have multiple events.
-        String pk = String.format("%s-%s-%s-%s", evt.monkeyType().name(), evt.id(), region, evtTime);
-        PutAttributesRequest putReq = new PutAttributesRequest(domain, pk, attrs);
+        String pk = String.format("%s-%s-%s-%s", evt.monkeyType().name(), evt.id(), getRegion(), evtTime);
+        PutAttributesRequest putReq = new PutAttributesRequest(getDomain(), pk, attrs);
         sdbClient().putAttributes(putReq);
 
     }
@@ -186,7 +97,7 @@ public class SimpleDBRecorder implements MonkeyRecorder {
      */
     protected List<Event> findEvents(Map<String, String> queryMap, long after) {
         StringBuilder query = new StringBuilder(
-                String.format("select * from %s where region = '%s'", domain, region));
+                String.format("select * from %s where region = '%s'", getDomain(), getRegion()));
         for (Map.Entry<String, String> pair : queryMap.entrySet()) {
             query.append(String.format(" and %s = '%s'", pair.getKey(), pair.getValue()));
         }
@@ -220,28 +131,5 @@ public class SimpleDBRecorder implements MonkeyRecorder {
             }
         } while (result.getNextToken() != null);
         return list;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public List<Event> findEvents(Map<String, String> query, Date after) {
-        return findEvents(query, after.getTime());
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public List<Event> findEvents(Enum monkeyType, Map<String, String> query, Date after) {
-        Map<String, String> copy = new LinkedHashMap<String, String>(query);
-        copy.put(Keys.monkeyType.name(), enumToValue(monkeyType));
-        return findEvents(copy, after);
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public List<Event> findEvents(Enum monkeyType, Enum eventType, Map<String, String> query, Date after) {
-        Map<String, String> copy = new LinkedHashMap<String, String>(query);
-        copy.put(Keys.monkeyType.name(), enumToValue(monkeyType));
-        copy.put(Keys.eventType.name(), enumToValue(eventType));
-        return findEvents(copy, after);
     }
 }

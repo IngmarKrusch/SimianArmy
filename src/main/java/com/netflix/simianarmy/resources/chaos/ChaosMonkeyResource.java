@@ -132,6 +132,7 @@ public class ChaosMonkeyResource {
         gen.writeStartArray();
         for (Event evt : evts) {
             gen.writeStartObject();
+            gen.writeStringField("id", evt.id());
             gen.writeStringField("monkeyType", evt.monkeyType().name());
             gen.writeStringField("eventType", evt.eventType().name());
             gen.writeNumberField("eventTime", evt.eventTime().getTime());

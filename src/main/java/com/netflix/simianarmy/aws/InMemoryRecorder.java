@@ -33,40 +33,10 @@ public class InMemoryRecorder  extends AbstractRecorder {
     @Override
     public void recordEvent(Event evt) {
         events.put(evt.id(), evt);
-
-//        dumpEvents("recordEvent");
     }
-
-//    private void dumpEvents(String tagline) {
-//        System.out.println("======================== " + tagline + " ========================");
-//        for (Iterator<String> iterator = events.keySet().iterator(); iterator.hasNext();) {
-//            String id = iterator.next();
-//            dumpEvent(events.get(id));
-//        }
-//    }
-//
-//    private void dumpEvent(Event event) {
-//        System.out.println("id = " + event.id());
-//        System.out.println("region = " + event.region());
-//        System.out.println("eventTime = " + event.eventTime());
-//        System.out.println("eventType = " + event.eventType());
-//        System.out.println("monkeyType = " + event.monkeyType());
-//        dumpMap("", event.fields());
-//    }
-//
-//    private void dumpMap(String tag, Map<String, String> fields) {
-//        if (tag.length() > 0) { System.out.println(tag); }
-//        for (Iterator<String> iterator = fields.keySet().iterator(); iterator.hasNext();) {
-//            String key = iterator.next();
-//            System.out.println(key + " = " + fields.get(key));
-//        }
-//    }
 
     @Override
     protected List<Event> findEvents(Map<String, String> queryMap, long after) {
-//        dumpEvents("findEvents");
-//        dumpMap("=========== queryMap ===========", queryMap);
-
         LinkedList<Event> found = new LinkedList<Event>();
         Set<String> queryKeys = queryMap.keySet();
         for (Iterator<Event> iterator = events.values().iterator(); iterator.hasNext();) {
@@ -102,7 +72,6 @@ public class InMemoryRecorder  extends AbstractRecorder {
                 found.add(event);
             }
         }
-//        System.out.println("found " + found.size());
         return found;
     }
 

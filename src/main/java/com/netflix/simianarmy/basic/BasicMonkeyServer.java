@@ -57,6 +57,8 @@ public class BasicMonkeyServer extends HttpServlet {
 //        RUNNER.replaceMonkey(VolumeTaggingMonkey.class, BasicVolumeTaggingMonkeyContext.class);
 //        LOGGER.info("Adding Janitor Monkey.");
 //        RUNNER.replaceMonkey(BasicJanitorMonkey.class, BasicJanitorMonkeyContext.class);
+//        LOGGER.info("Adding Conformity Monkey.");
+//        RUNNER.replaceMonkey(BasicConformityMonkey.class, BasicConformityMonkeyContext.class);
     }
 
     /**

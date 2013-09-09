@@ -20,6 +20,7 @@ import java.util.List;
 
 import com.amazonaws.AmazonServiceException;
 import com.amazonaws.services.autoscaling.model.AutoScalingGroup;
+import com.netflix.simianarmy.basic.chaos.TerminationStrategy;
 import com.netflix.simianarmy.client.aws.AWSClient;
 import com.vmware.vim25.mo.VirtualMachine;
 

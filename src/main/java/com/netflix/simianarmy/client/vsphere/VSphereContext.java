@@ -17,6 +17,8 @@ package com.netflix.simianarmy.client.vsphere;
 
 import com.netflix.simianarmy.MonkeyConfiguration;
 import com.netflix.simianarmy.basic.BasicChaosMonkeyContext;
+import com.netflix.simianarmy.basic.chaos.NoOpTerminationStrategy;
+import com.netflix.simianarmy.basic.chaos.TerminationStrategy;
 
 /**
  * This Context extends the BasicContext in order to provide a different client: the VSphereClient.
@@ -27,7 +29,10 @@ public class VSphereContext extends BasicChaosMonkeyContext {
     @Override
     protected void createClient() {
         MonkeyConfiguration config = configuration();
-        final PropertyBasedTerminationStrategy terminationStrategy = new PropertyBasedTerminationStrategy(config);
+        //TODO IK konfigurierbar machen
+        //final PropertyBasedTerminationStrategy terminationStrategy = new PropertyBasedTerminationStrategy(config);
+        final TerminationStrategy terminationStrategy = new NoOpTerminationStrategy();
+
         final VSphereServiceConnection connection = new VSphereServiceConnection(config);
         final VSphereClient client = new VSphereClient(terminationStrategy, connection);
         setCloudClient(client);

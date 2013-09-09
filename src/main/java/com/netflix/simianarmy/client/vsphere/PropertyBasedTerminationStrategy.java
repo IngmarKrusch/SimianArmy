@@ -18,6 +18,7 @@ package com.netflix.simianarmy.client.vsphere;
 import java.rmi.RemoteException;
 
 import com.netflix.simianarmy.MonkeyConfiguration;
+import com.netflix.simianarmy.basic.chaos.TerminationStrategy;
 import com.vmware.vim25.mo.VirtualMachine;
 
 /**

@@ -17,10 +17,10 @@
 package com.netflix.simianarmy.client.vsphere;
 
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-import static org.testng.Assert.assertTrue;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import static org.testng.Assert.assertTrue;
 
 import java.rmi.RemoteException;
 import java.util.List;
@@ -29,6 +29,7 @@ import org.testng.annotations.Test;
 
 import com.amazonaws.services.autoscaling.model.AutoScalingGroup;
 import com.amazonaws.services.autoscaling.model.Instance;
+import com.netflix.simianarmy.basic.chaos.TerminationStrategy;
 import com.vmware.vim25.mo.ManagedEntity;
 import com.vmware.vim25.mo.VirtualMachine;
 

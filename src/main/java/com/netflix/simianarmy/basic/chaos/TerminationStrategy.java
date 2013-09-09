@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.netflix.simianarmy.client.vsphere;
+package com.netflix.simianarmy.basic.chaos;
 
 import java.rmi.RemoteException;
 

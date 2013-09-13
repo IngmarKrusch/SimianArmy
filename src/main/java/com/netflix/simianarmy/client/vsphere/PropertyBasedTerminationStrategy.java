@@ -15,7 +15,7 @@
  */
 package com.netflix.simianarmy.client.vsphere;
 
-import java.rmi.RemoteException;
+import java.io.IOException;
 
 import com.netflix.simianarmy.MonkeyConfiguration;
 import com.netflix.simianarmy.basic.chaos.TerminationStrategy;
@@ -31,6 +31,7 @@ import com.vmware.vim25.mo.VirtualMachine;
  * @author ingmar.krusch@immobilienscout24.de
  */
 public class PropertyBasedTerminationStrategy implements TerminationStrategy {
+    private static final int DURATION_IN_INUTES = 120;
     private final String propertyName;
     private final String propertyValue;
 
@@ -47,7 +48,8 @@ public class PropertyBasedTerminationStrategy implements TerminationStrategy {
     }
 
     @Override
-    public void terminate(VirtualMachine virtualMachine) throws RemoteException {
+    public void terminate(VirtualMachine virtualMachine) throws IOException {
+        MonitoringDisable.pauseIcingaAlarming(virtualMachine.getName(), DURATION_IN_INUTES);
         virtualMachine.setCustomValue(getPropertyName(), getPropertyValue());
         virtualMachine.resetVM_Task();
     }

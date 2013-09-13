@@ -1,6 +1,6 @@
 package com.netflix.simianarmy.basic.chaos;
 
-import java.rmi.RemoteException;
+import java.io.IOException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,7 +16,7 @@ public class NoOpTerminationStrategy implements TerminationStrategy {
     private static final Logger LOGGER = LoggerFactory.getLogger(NoOpTerminationStrategy.class);
 
     @Override
-    public void terminate(VirtualMachine virtualMachine) throws RemoteException {
+    public void terminate(VirtualMachine virtualMachine) throws IOException {
         LOGGER.info("skipped termination of " + virtualMachine.getName());
     }
 }

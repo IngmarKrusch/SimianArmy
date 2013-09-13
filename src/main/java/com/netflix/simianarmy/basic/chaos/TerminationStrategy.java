@@ -15,7 +15,7 @@
  */
 package com.netflix.simianarmy.basic.chaos;
 
-import java.rmi.RemoteException;
+import java.io.IOException;
 
 import com.vmware.vim25.mo.VirtualMachine;
 
@@ -28,5 +28,5 @@ public interface TerminationStrategy {
     /**
      * Terminate the given VirtualMachine.
      */
-    void terminate(VirtualMachine virtualMachine) throws RemoteException;
+    void terminate(VirtualMachine virtualMachine) throws IOException;
 }

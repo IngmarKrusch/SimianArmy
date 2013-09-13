@@ -39,23 +39,23 @@ public abstract class MonitoringDisable {
         BufferedReader in = null;
         try {
             StringBuilder url = new StringBuilder();
-            long startTimestamp = new Date().getTime() / 1000; // in seconds
-            long endTimestamp = startTimestamp + (durationInMinutes * MINUTES_IN_SECONDS);
-            String downtimeType = "1";
-            String triggerID = "0";
-            String duration = "0";
+            long startTimestampSeconds = new Date().getTime() / 1000; // in seconds
+            long endTimestampSeconds = startTimestampSeconds + (durationInMinutes * MINUTES_IN_SECONDS);
+            String downtimeType = "1"; // 1 means "fixed" (read: Downtime *exactly* between Start- and EndTimestamp)
+            String triggerID = "0"; // can another downtime trigger a downtime in this period? 0 means "no"
+            String duration = "0"; // Relative duration. since we use "fixed" above, this is not relevant
             // Example URL we need to create (/wo the line break of course):
             // http://tuvica01.rz.is:8080/cmd?q=SCHEDULE_HOST_SVC_DOWNTIME;tuvmnk01
             //        ;1379061100;1379061400;1;0;0;ralph;chaos_monkey
             url
             .append("http://tuvica01.rz.is:8080/cmd?q=SCHEDULE_HOST_SVC_DOWNTIME;")
             .append(vmShortName)
-            .append(";").append(startTimestamp)
-            .append(";").append(endTimestamp)
+            .append(";").append(startTimestampSeconds)
+            .append(";").append(endTimestampSeconds)
             .append(";").append(downtimeType)
             .append(";").append(triggerID)
             .append(";").append(duration)
-            .append(";ChaosMonkey;terminating instance for resilience reasons");
+            .append(";ChaosMonkey;terminating_instance_for_resilience_reasons");
             URL diableURL = new URL(url.toString());
             in = new BufferedReader(new InputStreamReader(diableURL.openStream()));
             String inputLine;

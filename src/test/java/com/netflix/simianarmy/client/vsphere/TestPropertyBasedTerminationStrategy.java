@@ -23,7 +23,7 @@ import static org.mockito.Mockito.when;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.fail;
 
-import java.rmi.RemoteException;
+import java.io.IOException;
 
 import org.testng.annotations.Test;
 
@@ -63,7 +63,7 @@ public class TestPropertyBasedTerminationStrategy {
             strategy.terminate(virtualMachineMock);
             verify(virtualMachineMock, times(1)).setCustomValue("configured name", "configured value");
             verify(virtualMachineMock, times(1)).resetVM_Task();
-        } catch (RemoteException e) {
+        } catch (IOException e) {
             fail("termination should not fail", e);
         }
     }

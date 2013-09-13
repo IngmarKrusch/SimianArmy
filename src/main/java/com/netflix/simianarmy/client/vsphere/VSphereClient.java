@@ -15,7 +15,7 @@
  */
 package com.netflix.simianarmy.client.vsphere;
 
-import java.rmi.RemoteException;
+import java.io.IOException;
 import java.util.List;
 
 import com.amazonaws.AmazonServiceException;
@@ -85,7 +85,7 @@ public class VSphereClient extends AWSClient {
 
             VirtualMachine virtualMachine = connection.getVirtualMachineById(instanceId);
             this.terminationStrategy.terminate(virtualMachine);
-        } catch (RemoteException e) {
+        } catch (IOException e) {
             throw new AmazonServiceException("cannot destory & recreate " + instanceId, e);
         } finally {
             connection.disconnect();

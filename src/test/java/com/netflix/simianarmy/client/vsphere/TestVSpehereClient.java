@@ -22,7 +22,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.testng.Assert.assertTrue;
 
-import java.rmi.RemoteException;
+import java.io.IOException;
 import java.util.List;
 
 import org.testng.annotations.Test;
@@ -38,7 +38,7 @@ import com.vmware.vim25.mo.VirtualMachine;
  */
 public class TestVSpehereClient {
     @Test
-    public void shouldTerminateCorrectly() throws RemoteException {
+    public void shouldTerminateCorrectly() throws IOException {
         VSphereServiceConnection connection = mock(VSphereServiceConnection.class);
         VirtualMachine vm1 = createVMMock("vm1");
         when(connection.getVirtualMachineById("vm1")).thenReturn(vm1);

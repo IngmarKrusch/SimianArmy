@@ -34,11 +34,9 @@ import com.vmware.vim25.mo.VirtualMachine;
  * @author ingmar.krusch@immobilienscout24.de
  */
 public class TestPropertyBasedTerminationStrategy {
-    private BasicConfiguration configMock = mock(BasicConfiguration.class);
-    private VirtualMachine virtualMachineMock = mock(VirtualMachine.class);
-
     @Test
     public void shouldReturnConfiguredPropertyNameAndValueAfterConstructedFromConfig() {
+        BasicConfiguration configMock = mock(BasicConfiguration.class);
         when(configMock.getStrOrElse("simianarmy.client.vsphere.terminationStrategy.property.name", "Force Boot"))
             .thenReturn("configured name");
         when(configMock.getStrOrElse("simianarmy.client.vsphere.terminationStrategy.property.value", "server"))
@@ -52,6 +50,8 @@ public class TestPropertyBasedTerminationStrategy {
 
     @Test
     public void shouldSetPropertyAndResetVirtualMachineAfterTermination() {
+        BasicConfiguration configMock = mock(BasicConfiguration.class);
+        VirtualMachine virtualMachineMock = mock(VirtualMachine.class);
         when(configMock.getStrOrElse("simianarmy.client.vsphere.terminationStrategy.property.name", "Force Boot"))
             .thenReturn("configured name");
         when(configMock.getStrOrElse("simianarmy.client.vsphere.terminationStrategy.property.value", "server"))

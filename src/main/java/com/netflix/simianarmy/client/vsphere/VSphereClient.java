@@ -18,6 +18,8 @@ package com.netflix.simianarmy.client.vsphere;
 import java.io.IOException;
 import java.util.List;
 
+import org.testng.log4testng.Logger;
+
 import com.amazonaws.AmazonServiceException;
 import com.amazonaws.services.autoscaling.model.AutoScalingGroup;
 import com.netflix.simianarmy.basic.chaos.TerminationStrategy;
@@ -32,7 +34,7 @@ import com.vmware.vim25.mo.VirtualMachine;
  * @author ingmar.krusch@immobilienscout24.de
  */
 public class VSphereClient extends AWSClient {
-//    private static final Logger LOGGER = LoggerFactory.getLogger(VSphereClient.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(VSphereClient.class);
 
     private final TerminationStrategy terminationStrategy;
     private final VSphereServiceConnection connection;
@@ -55,7 +57,13 @@ public class VSphereClient extends AWSClient {
 
             for (VirtualMachine virtualMachine : connection.describeVirtualMachines()) {
                 String instanceId = virtualMachine.getName();
-                String groupName = virtualMachine.getParent().getName();
+                String groupName = "";
+                try {
+                groupName = virtualMachine.getParent().getName();
+                } catch (NullPointerException e) {
+                    groupName = "TreeProblemASG";
+                    LOGGER.debug("the inctance " + instanceId + " has no parent, using " + groupName + " instead.");
+                }
 
                 boolean shouldAddNamedGroup = true;
                 if (names != null) {

@@ -59,7 +59,7 @@ public abstract class MonitoringDisable {
             .append(";").append(duration)
             .append(";ChaosMonkey;terminating_instance_for_resilience_reasons");
             URL diableURL = new URL(url.toString());
-            in = new BufferedReader(new InputStreamReader(diableURL.openStream()));
+            in = new BufferedReader(new InputStreamReader(diableURL.openStream(), "UTF-8"));
             String inputLine;
             StringBuilder result = new StringBuilder();
             while ((inputLine = in.readLine()) != null) {

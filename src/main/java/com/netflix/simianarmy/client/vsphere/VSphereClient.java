@@ -18,7 +18,8 @@ package com.netflix.simianarmy.client.vsphere;
 import java.io.IOException;
 import java.util.List;
 
-import org.testng.log4testng.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.amazonaws.AmazonServiceException;
 import com.amazonaws.services.autoscaling.model.AutoScalingGroup;

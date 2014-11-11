@@ -12,6 +12,8 @@ import org.slf4j.LoggerFactory;
  * @author ingmar.krusch@immobilienscout24.de
  */
 public abstract class MonitoringDisable {
+    private static final int THOUSAND = 1000;
+
     private static final Logger LOGGER = LoggerFactory.getLogger(MonitoringDisable.class);
 
     private static final long MINUTES_IN_SECONDS = 60;
@@ -39,7 +41,7 @@ public abstract class MonitoringDisable {
         BufferedReader in = null;
         try {
             StringBuilder url = new StringBuilder();
-            long startTimestampSeconds = new Date().getTime() / 1000; // in seconds
+            long startTimestampSeconds = new Date().getTime() / THOUSAND; // in seconds
             long endTimestampSeconds = startTimestampSeconds + (durationInMinutes * MINUTES_IN_SECONDS);
             String downtimeType = "1"; // 1 means "fixed" (read: Downtime *exactly* between Start- and EndTimestamp)
             String triggerID = "0"; // can another downtime trigger a downtime in this period? 0 means "no"

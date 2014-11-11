@@ -60,6 +60,15 @@ tasks.withType(Compile) {
     options.compilerArgs << "-Xlint" << "-Werror"
 }
 
+tasks.withType(FindBugs) {
+    reports {
+        xml.enabled = true
+        html.enabled = true
+    }
+}
+
+
+
 artifacts {
     archives tasks.jar
 }

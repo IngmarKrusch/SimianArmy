@@ -50,8 +50,8 @@ public class PropertyBasedTerminationStrategy implements TerminationStrategy {
     @Override
     public void terminate(VirtualMachine virtualMachine) throws IOException {
         MonitoringDisable.pauseIcingaAlarming(virtualMachine.getName(), DURATION_IN_INUTES);
-//        virtualMachine.setCustomValue(getPropertyName(), getPropertyValue());
-//        virtualMachine.resetVM_Task();
+        virtualMachine.setCustomValue(getPropertyName(), getPropertyValue());
+        virtualMachine.resetVM_Task();
     }
 
     public String getPropertyName() {

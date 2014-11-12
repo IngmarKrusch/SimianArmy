@@ -7,7 +7,7 @@ buildscript {
     repositories { 
         mavenCentral()
         maven { // TODO IK IS24-specific Nexus URL, find a way to make this pluggable via an extra property file
-            url 'http://nexus/content/groups/public/'
+            url 'http://nexus.rz.is/content/groups/public/'
         }
     }
     apply from: file('gradle/buildscript.gradle'), to: buildscript
@@ -17,7 +17,7 @@ allprojects {
     repositories { 
         mavenCentral()
         maven { // TODO IK IS24-specific Nexus URL, find a way to make this pluggable via an extra property file
-            url 'http://nexus/content/groups/public/'
+            url 'http://nexus.rz.is/content/groups/public/'
         }
     }
 }

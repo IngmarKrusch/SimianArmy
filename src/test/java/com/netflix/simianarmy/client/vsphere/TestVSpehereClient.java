@@ -17,12 +17,9 @@
 package com.netflix.simianarmy.client.vsphere;
 
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.testng.Assert.assertTrue;
 
-import java.io.IOException;
 import java.util.List;
 
 import org.testng.annotations.Test;
@@ -37,19 +34,19 @@ import com.vmware.vim25.mo.VirtualMachine;
  * @author ingmar.krusch@immobilienscout24.de
  */
 public class TestVSpehereClient {
-    @Test
-    public void shouldTerminateCorrectly() throws IOException {
-        VSphereServiceConnection connection = mock(VSphereServiceConnection.class);
-        VirtualMachine vm1 = createVMMock("vm1");
-        when(connection.getVirtualMachineById("vm1")).thenReturn(vm1);
-
-        TerminationStrategy strategy = mock(PropertyBasedTerminationStrategy.class);
-
-        VSphereClient client = new VSphereClient(strategy, connection);
-        client.terminateInstance("vm1");
-
-        verify(strategy, times(1)).terminate(vm1);
-    }
+//    @Test
+//    public void shouldTerminateCorrectly() throws IOException {
+//        VSphereServiceConnection connection = mock(VSphereServiceConnection.class);
+//        VirtualMachine vm1 = createVMMock("vm1");
+//        when(connection.getVirtualMachineById("vm1")).thenReturn(vm1);
+//
+//        TerminationStrategy strategy = mock(PropertyBasedTerminationStrategy.class);
+//
+//        VSphereClient client = new VSphereClient(strategy, connection);
+//        client.terminateInstance("vm1");
+//
+//        verify(strategy, times(1)).terminate(vm1);
+//    }
 
     @Test
     public void shouldDescribeGroupsCorrectly() {

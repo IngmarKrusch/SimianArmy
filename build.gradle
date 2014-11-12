@@ -4,12 +4,22 @@ group = "com.netflix.${project.name}"
 apply plugin:'eclipse-wtp'
 
 buildscript {
-    repositories { mavenCentral() }
+    repositories { 
+        mavenCentral()
+        maven { // TODO IK IS24-specific Nexus URL, find a way to make this pluggable via an extra property file
+            url 'http://nexus/content/groups/public/'
+        }
+    }
     apply from: file('gradle/buildscript.gradle'), to: buildscript
 }
 
 allprojects {
-    repositories { mavenCentral() }
+    repositories { 
+        mavenCentral()
+        maven { // TODO IK IS24-specific Nexus URL, find a way to make this pluggable via an extra property file
+            url 'http://nexus/content/groups/public/'
+        }
+    }
 }
 
 apply from: file('gradle/convention.gradle')

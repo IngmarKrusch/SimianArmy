@@ -63,7 +63,7 @@ public class VSphereClient extends AWSClient {
                 groupName = virtualMachine.getParent().getName();
                 } catch (NullPointerException e) {
                     groupName = "TreeProblemASG";
-                    LOGGER.debug("the inctance " + instanceId + " has no parent, using " + groupName + " instead.");
+                    LOGGER.warn("the instance " + instanceId + " has no parent, using " + groupName + " instead.");
                 }
 
                 boolean shouldAddNamedGroup = true;

@@ -53,13 +53,7 @@ public enum MonkeyRunner {
      */
     public void start() {
         for (Monkey monkey : monkeys) {
-            try {
-                Enum monkeyType = monkey.type();
-                String monkeyTypeName = monkeyType.name();
-                LOGGER.info("Starting " + monkeyTypeName + " Monkey");
-            } catch (NullPointerException e) {
-                e.printStackTrace();
-            }
+            LOGGER.info("Starting " + monkey.type().name() + " Monkey");
             monkey.start();
         }
     }

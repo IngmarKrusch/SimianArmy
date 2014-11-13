@@ -17,9 +17,6 @@ package com.netflix.simianarmy.client.vsphere;
 
 import java.io.IOException;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.netflix.simianarmy.MonkeyConfiguration;
 import com.netflix.simianarmy.basic.chaos.TerminationStrategy;
 import com.vmware.vim25.mo.VirtualMachine;
@@ -34,9 +31,9 @@ import com.vmware.vim25.mo.VirtualMachine;
  * @author ingmar.krusch@immobilienscout24.de
  */
 public class PropertyBasedTerminationStrategy implements TerminationStrategy {
-    private static final Logger LOGGER = LoggerFactory.getLogger(PropertyBasedTerminationStrategy.class);
+//    private static final Logger LOGGER = LoggerFactory.getLogger(PropertyBasedTerminationStrategy.class);
 
-//    private static final int DURATION_IN_INUTES = 120;
+    private static final int DURATION_IN_INUTES = 60;
     private final String propertyName;
     private final String propertyValue;
 
@@ -54,10 +51,10 @@ public class PropertyBasedTerminationStrategy implements TerminationStrategy {
 
     @Override
     public void terminate(VirtualMachine virtualMachine) throws IOException {
-        LOGGER.info("skipped termination of " + virtualMachine.getName());
-//        MonitoringDisable.pauseIcingaAlarming(virtualMachine.getName(), DURATION_IN_INUTES);
-//        virtualMachine.setCustomValue(getPropertyName(), getPropertyValue());
-//        virtualMachine.resetVM_Task();
+//        LOGGER.info("skipped termination of " + virtualMachine.getName());
+        MonitoringDisable.pauseIcingaAlarming(virtualMachine.getName(), DURATION_IN_INUTES);
+        virtualMachine.setCustomValue(getPropertyName(), getPropertyValue());
+        virtualMachine.resetVM_Task();
     }
 
     public String getPropertyName() {

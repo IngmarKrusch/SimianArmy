@@ -135,7 +135,10 @@ public abstract class Monkey {
             } finally {
                 String eventReport = context().getEventReport();
                 if (eventReport != null) {
-                    LOGGER.info("Reporting what I did...\n" + eventReport);
+                    LOGGER.info("Reporting what I did...");
+                    for(String eventReportLine : eventReport.split("\\r?\\n")){
+                        LOGGER.info(eventReportLine);
+                    }
                 }
             }
         } else {
